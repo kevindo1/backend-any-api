@@ -19,7 +19,7 @@ describe('backend-any-api routes', () => {
       .send({ name: 'Eren Jaeger', branch: 'Survey Corps' });
 
     expect(res.body).toEqual({
-      id: expect.any(Number),
+      id: expect.any(String),
       name: 'Eren Jaeger',
       branch: 'Survey Corps',
     });
