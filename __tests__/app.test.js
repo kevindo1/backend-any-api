@@ -49,7 +49,7 @@ describe('backend-any-api routes', () => {
     expect(res.body).toEqual(character);
   });
 
-  it.only('should edit AoT characters', async () => {
+  it('should edit AoT characters', async () => {
     const character = await Character.insert({
       name: 'Eren Jaeger',
       branch: 'Titan',
@@ -57,6 +57,16 @@ describe('backend-any-api routes', () => {
     const res = await request(app)
       .patch(`/api/v1/aot/1`)
       .send({ branch: 'Titan' });
+
+    expect(res.body).toEqual(character);
+  });
+
+  it('should delete AoT character', async () => {
+    const character = await Character.insert({
+      name: 'Eren Jaeger',
+      branch: 'Titan',
+    });
+    const res = await request(app).delete(`/api/v1/aot/${character.id}`);
 
     expect(res.body).toEqual(character);
   });
