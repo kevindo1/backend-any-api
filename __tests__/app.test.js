@@ -26,7 +26,7 @@ describe('backend-any-api routes', () => {
     });
   });
 
-  it.only('should get a list of AoT characters', async () => {
+  it('should get a list of AoT characters', async () => {
     const character1 = await Character.insert({
       name: 'Eren Jaeger',
       branch: 'Survey Corps',
@@ -39,14 +39,25 @@ describe('backend-any-api routes', () => {
     expect(res.body).toEqual(expect.arrayContaining([character1, character2]));
   });
 
-  it('should get a lost of AoT characters by id', async () => {
+  it('should get a list of AoT characters by id', async () => {
     const character = await Character.insert({
       name: 'Eren Jaeger',
       branch: 'Survey Corps',
     });
-    const expected = await Character.findById(1);
-    const res = await request(app).get(`/api/v1/aot/${expected.id}`);
+    const res = await request(app).get(`/api/v1/aot/${character.id}`);
 
-    expect(res.body).toEqual({ ...expected });
+    expect(res.body).toEqual(character);
+  });
+
+  it.only('should edit AoT characters', async () => {
+    const character = await Character.insert({
+      name: 'Eren Jaeger',
+      branch: 'Titan',
+    });
+    const res = await request(app)
+      .patch(`/api/v1/aot/1`)
+      .send({ branch: 'Titan' });
+
+    expect(res.body).toEqual(character);
   });
 });
